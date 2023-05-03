@@ -1,0 +1,35 @@
+.menu ul li {
+  list-style-type: none;
+  margin-bottom: 21px;
+  border-radius: 16px;
+
+  &:hover {
+    background-color: rgba(169, 233, 224, 0.75);
+  }
+
+  a {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  transition: background-color 400ms ease;
+}
+
+.menu ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 55px;
+}
+
+.menu {
+  padding-top: 85px;
+}
