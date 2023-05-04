@@ -6,6 +6,7 @@ import Home from "./routes/Home/Home.jsx";
 import Table from "./routes/Table/Table.jsx";
 import Layout from "./layout/Layout.jsx";
 
+
 const router = createBrowserRouter([
     {
         element: <Layout />,

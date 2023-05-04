@@ -1,0 +1,119 @@
+.topMenu {
+  display: flex;
+  gap: 5vw;
+}
+
+.menuWrapper {
+  display: grid;
+  grid-template-areas: 'controlButtons nav';
+  align-items: center;
+  gap: 40px;
+}
+
+.controlButtons {
+  grid-area: controlButtons;
+  display: flex;
+  flex-direction: row;
+}
+
+.btn {
+  background: #FFFFFF;
+  box-shadow: 0 4px 18px rgba(210, 209, 209, 0.5);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  position: relative;
+
+  .left {
+    position: absolute;
+    left: 13px;
+    top: 10px;
+  }
+
+  .right {
+    position: absolute;
+    left: 16px;
+    top: 10px;
+  }
+}
+
+.btn ~ .btn {
+  margin-left: 8px;
+}
+
+.nav {
+  grid-area: nav;
+  overflow: hidden;
+  overflow-x: scroll;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+
+  padding: 0;
+  margin: 0;
+
+
+  li {
+    list-style-type: none;
+    white-space: nowrap;
+
+
+    a {
+      display: block;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.44px;
+      color: #D2D1D1;
+      text-decoration: none;
+      padding: 0 10px 10px 10px;
+      border-bottom: 1.5px solid #D2D1D1;
+    }
+
+    .active {
+      padding-bottom: 8.5px;
+      border-bottom: 4.5px solid #54D3C2;
+    }
+  }
+}
+
+.profile {
+  min-width: 30vw;
+  grid-area: profile;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .avatar {
+    margin-right: 20px;
+  }
+
+  .icon {
+    margin-left: auto;
+  }
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+
+  .profileName {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 0.44px;
+    color: #323F47;
+  }
+
+  .profileDesc {
+    color: #989FA3;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.15px;
+    font-weight: 700;
+  }
+}

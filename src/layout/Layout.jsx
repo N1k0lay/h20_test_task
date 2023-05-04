@@ -3,6 +3,7 @@ import {Outlet} from "react-router-dom";
 import NavBarLeft from "../components/NavBar/NavBar.jsx";
 import TopMenu from "../components/TopMenu/TopMenu.jsx";
 
+
 const Layout = () => {
     return (
         <>
