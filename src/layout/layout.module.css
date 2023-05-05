@@ -12,7 +12,7 @@
   border-radius: 56px;
   display: grid;
   grid-template-areas: 'topMenu' 'mainContent';
-  grid-template-rows: minmax(auto, 156px) auto; }
+  grid-template-rows: minmax(auto, 130px) auto; }
 
 .header {
   grid-area: header; }

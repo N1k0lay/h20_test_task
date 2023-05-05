@@ -19,6 +19,10 @@ const router = createBrowserRouter([
                 path: '/table',
                 element: <Table />
             },
+            {
+                path: '/:page',
+                element: <Home />
+            },
         ]
     }
 ])

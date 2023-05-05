@@ -1,12 +1,13 @@
 .topMenu {
   display: flex;
-  gap: 5vw; }
+  gap: 5vw;
+  justify-content: space-between;
+  align-items: center; }
 
 .menuWrapper {
   display: grid;
   grid-template-areas: 'controlButtons nav';
-  align-items: center;
-  gap: 40px; }
+  gap: 2vw; }
 
 .controlButtons {
   grid-area: controlButtons;
@@ -37,6 +38,8 @@
   grid-area: nav;
   overflow: hidden;
   overflow-x: scroll; }
+  .nav::-webkit-scrollbar {
+    width: 0; }
 
 .menu {
   display: flex;
@@ -61,7 +64,7 @@
       border-bottom: 4.5px solid #54D3C2; }
 
 .profile {
-  min-width: 30vw;
+  min-width: 14vw;
   grid-area: profile;
   display: flex;
   flex-direction: row;

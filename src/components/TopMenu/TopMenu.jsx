@@ -3,9 +3,7 @@ import right from '../../assets/icons/right.svg'
 import styles from './TopMenu.module.scss'
 import avatarImg from '../../assets/img/avatar.png'
 import downIcon from '../../assets/icons/down.svg'
-import {Link, useParams} from "react-router-dom";
-
-
+import {Link, useLocation} from "react-router-dom";
 
 const menu = [
     {
@@ -26,21 +24,31 @@ const menu = [
     }
 ]
 
+function scrollToItem(itemId) {
+    const container = document.querySelector('#nav');
+    const item = document.getElementById(itemId);
+    if (container && item) {
+        item.scrollIntoView({block: "center", behavior: "smooth"});
+    }
+}
 
 const TopMenu = () => {
 
-    const params = useParams();
-    console.log(params)
+    const location = useLocation();
+    const currentItemIndex = menu.findIndex(item => item.link.includes(location.pathname)),
+        prevLink= currentItemIndex <= 0 ? menu[menu.length-1].link : menu[currentItemIndex-1].link,
+        nextLink = currentItemIndex < menu.length - 1 ? menu[currentItemIndex+1].link : menu[0].link;
+
     return (
         <div className={styles.topMenu}>
             <div className={styles.menuWrapper}>
                 <div className={styles.controlButtons}>
-                    <button className={styles.btn}><img className={styles.left} src={left} alt="налево"/></button>
-                    <button className={styles.btn}><img className={styles.right} src={right} alt="направо"/></button>
+                    <Link to={prevLink} className={styles.btn} onClick={() => scrollToItem(prevLink)}><img className={styles.left} src={left} alt="налево"/></Link>
+                    <Link to={nextLink} className={styles.btn} onClick={() => scrollToItem(nextLink)}><img className={styles.right} src={right} alt="направо"/></Link>
                 </div>
-                <nav className={styles.nav}>
+                <nav id={'nav'} className={styles.nav}>
                     <ul className={styles.menu}>
-                        {menu && menu.map(item => <li key={item.name}><Link className={styles.active} to={item.link}>{item.name}</Link></li>)}
+                        {menu && menu.map(item => <li key={item.name} id={item.link}><Link className={location.pathname === item.link ? styles.active : null} to={item.link}>{item.name}</Link></li>)}
                     </ul>
                 </nav>
             </div>
