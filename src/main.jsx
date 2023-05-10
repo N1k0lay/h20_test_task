@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client'
 import './index.scss'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./routes/Home/Home.jsx";
-import Table from "./routes/Table/Table.jsx";
 import Layout from "./layout/Layout.jsx";
+import TablePage from "./routes/TablePage/TablePage.jsx";
 
 
 const router = createBrowserRouter([
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/table',
-                element: <Table />
+                element: <TablePage />
             },
             {
                 path: '/:page',
