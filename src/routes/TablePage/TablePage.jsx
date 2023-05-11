@@ -1,16 +1,20 @@
 import Table from "./Table/Table.jsx";
 import styles from './TablePage.module.css';
-import {makeData} from "../../fakeData.js";
 import WidgetTable from "./WidgetTable/WidgetTable.jsx";
-const TablePage = () => {
+import {useState} from "react";
 
-    const data = makeData(20);
+const TablePage = ({data}) => {
+    const [search, setSearch] = useState('');
+
+    const handleChangeSearch = (value) => {
+        setSearch(value)
+    }
 
     return (
         <div className={styles.tablePage}>
             <h1>Общая база сотрудников</h1>
-            <WidgetTable data={data} />
-            <Table data={data}/>
+            <WidgetTable data={data} handleChangeSearch={handleChangeSearch}/>
+            <Table data={data} search={search}/>
         </div>
     );
 };

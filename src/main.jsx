@@ -4,7 +4,9 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./routes/Home/Home.jsx";
 import Layout from "./layout/Layout.jsx";
 import TablePage from "./routes/TablePage/TablePage.jsx";
+import {makeData} from "./fakeData.js";
 
+const data = makeData(20);
 
 const router = createBrowserRouter([
     {
@@ -16,7 +18,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/table',
-                element: <TablePage/>
+                element: <TablePage data={data}/>
             },
             {
                 path: '/:page',

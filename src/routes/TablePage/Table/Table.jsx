@@ -1,8 +1,16 @@
 import styles from './table.module.css';
+import {useEffect, useState} from "react";
 
-const Table = ({data}) => {
-    console.table(data)
-    console.log(Object.keys(data[0].base))
+const Table = ({data, search}) => {
+
+    const [filteredData, setFilteredData] = useState(data)
+
+    //Поиск по firstName, lastName
+    useEffect(() => {
+        search ? setFilteredData(data.filter(person => person.firstName.toLowerCase().includes(search.toLowerCase()) || person.lastName.toLowerCase().includes(search.toLowerCase()))) : setFilteredData(data)
+    }, [search, data])
+
+
     return (
         <div>
             <table className={styles.table}>
@@ -10,7 +18,7 @@ const Table = ({data}) => {
                 <tr>
                     <th rowSpan={2}>№</th>
                     <th rowSpan={2}>Имя сотрудника</th>
-                    <th colSpan={Object.keys(data[0].base).length-1}>{data[0].base.nameGroup}</th>
+                    <th colSpan={6}>Основная информация</th>
                 </tr>
                 <tr>
                     <th>ID номер</th>
@@ -21,7 +29,8 @@ const Table = ({data}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((p) => {
+                {filteredData.length > 0 && filteredData.map((p) => {
+                    // search && p.includes(search) &&
                     return <tr key={p.id}>
                         <td>{p.id}</td>
                         <td>{`${p.firstName} ${p.lastName}`}</td>
@@ -36,6 +45,7 @@ const Table = ({data}) => {
             </table>
         </div>
     );
+
 };
 
 export default Table;
