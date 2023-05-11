@@ -1,8 +1,8 @@
-import left from '../../../assets/icons/left.svg'
-import right from '../../../assets/icons/right.svg'
+import left from '../../assets/icons/left.svg'
+import right from '../../assets/icons/right.svg'
 import styles from './TopMenu.module.scss'
-import avatarImg from '../../../assets/img/avatar.png'
-import downIcon from '../../../assets/icons/down.svg'
+import avatarImg from '../../assets/img/avatar.png'
+import downIcon from '../../assets/icons/down.svg'
 import {Link, useLocation} from "react-router-dom";
 
 const menu = [
