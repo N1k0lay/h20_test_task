@@ -8,11 +8,11 @@ import {Link, useLocation} from "react-router-dom";
 const menu = [
     {
         name: 'База анкет сотрудников',
-        link: '/table'
+        link: '/dbprofile'
     },
     {
         name: 'Общая база сотрудников',
-        link: '/allbase'
+        link: '/table'
     },
     {
         name: 'База сотрудников',

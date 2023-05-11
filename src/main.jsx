@@ -5,6 +5,7 @@ import Home from "./routes/Home/Home.jsx";
 import Layout from "./layout/Layout.jsx";
 import TablePage from "./routes/TablePage/TablePage.jsx";
 import {makeData} from "./fakeData.js";
+import PageNotFound from "./routes/404/PageNotFound.jsx";
 
 const data = makeData(20);
 
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '',
-                element: <Home/>
+                element: <Home/>,
             },
             {
                 path: '/table',
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/:page',
-                element: <Home/>
+                element: <PageNotFound/>
             },
         ]
     }
