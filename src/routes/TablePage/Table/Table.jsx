@@ -5,13 +5,16 @@ import arrowRIcon from '../../../assets/icons/arrowR.svg';
 import cn from 'classnames';
 
 
-//Поправить
-const TdEdit = ({value, editMode, type}) => {
+//Поправить, редактируется только имя,фамилия
+const TdEdit = ({id, value, editMode, name, type, handleChangeData}) => {
     const [editValue, setEditValue] = useState(value)
-
     if (editMode) {
         return (
-            <input type={type} value={editValue} onChange={(event) => setEditValue(event.target.value)}/>
+            <input type={type} value={editValue} onChange={(event) => {
+                setEditValue(event.target.value);
+                handleChangeData(id, name, event.target.value)
+
+            }}/>
         )
     } else {
         return <>{value}</>
@@ -46,6 +49,13 @@ const Table = ({data, search, editMode}) => {
         }
     }, [filteredData.length, itemsPerPage, selectedPage])
 
+    const handleChangeData = (id, name, value) => {
+        let dataEdited = filteredData;
+        let arrKey = name.split('.');
+        dataEdited[id-1][arrKey] = value;
+        setFilteredData(dataEdited)
+    }
+
     return (
         <div>
             <table className={styles.table}>
@@ -68,9 +78,9 @@ const Table = ({data, search, editMode}) => {
                     if (p.id > selectedPage * itemsPerPage - itemsPerPage && p.id < selectedPage * itemsPerPage + 1) {
                         return <tr key={p.id}>
                             <td>{p.id}</td>
-                            <td><TdEdit value={p.firstName} editMode={editMode}/> <TdEdit value={p.lastName}
-                                                                                          editMode={editMode}/></td>
-                            <td><TdEdit value={p.base.id} editMode={editMode} type={'number'}/></td>
+                            <td><TdEdit id={p.id} value={p.firstName} editMode={editMode} handleChangeData={handleChangeData} name={'firstName'}/> <TdEdit value={p.lastName}
+                                                                                          editMode={editMode} id={p.id}  handleChangeData={handleChangeData} name={'lastName'}/></td>
+                            <td><TdEdit value={p.base.id} editMode={editMode} type={'number'} id={p.id}  handleChangeData={handleChangeData} name={'base.id'}/></td>
                             <td><TdEdit value={p.base.phone} editMode={editMode} type={'tel'}/></td>
                             <td><TdEdit value={p.base.gender} editMode={editMode} type={'text'}/></td>
                             <td><TdEdit value={p.base.birthdate.toLocaleDateString()} editMode={editMode}
