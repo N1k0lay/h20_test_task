@@ -7,7 +7,7 @@ import TablePage from "./routes/TablePage/TablePage.jsx";
 import {makeData} from "./fakeData.js";
 import PageNotFound from "./routes/404/PageNotFound.jsx";
 
-const data = makeData(20);
+const data = makeData(100);
 
 const router = createBrowserRouter([
     {
