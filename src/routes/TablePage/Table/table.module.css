@@ -8,13 +8,13 @@
 
 .table th  {
     font-weight: bold;
-    padding: 5px;
     color: #54D3C2;
     border: 1.5px solid #F8F8F8;
     text-align: left;
     font-style: normal;
     font-size: 12px;
     line-height: 120%;
+    padding: 10px 13px;
 }
 
 .table th button {
