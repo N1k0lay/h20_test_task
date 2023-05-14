@@ -18,6 +18,10 @@
   transition: background-color 400ms ease;
 }
 
+.active {
+  background-color: rgba(169, 233, 224, 0.75);
+}
+
 .menu ul {
   margin-left: 0;
   padding-left: 0;
