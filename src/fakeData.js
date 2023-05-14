@@ -2,8 +2,7 @@ import {faker} from '@faker-js/faker/locale/ru'
 
 const newPerson = () => {
     return {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        name: faker.name.lastName() + ' ' + faker.name.firstName(),
         base_id: faker.datatype.number(1000),
         base_phone: faker.phone.number('+7 ### ### ## ##'),
         base_age: faker.datatype.number(40),

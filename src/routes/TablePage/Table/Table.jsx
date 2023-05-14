@@ -3,9 +3,9 @@ import {useEffect, useState} from "react";
 import arrowIcon from '../../../assets/icons/arrow.svg';
 import arrowRIcon from '../../../assets/icons/arrowR.svg';
 import cn from 'classnames';
+import iconDown from '../../../assets/icons/down.svg';
 
-
-//Поправить, редактируется только имя,фамилия
+//Поправить, редактируется только имя, фамилия
 const TdEdit = ({id, value, editMode, name, type, handleChangeData}) => {
     const [editValue, setEditValue] = useState(value)
     if (editMode) {
@@ -17,9 +17,8 @@ const TdEdit = ({id, value, editMode, name, type, handleChangeData}) => {
             }}/>
         )
     } else {
-        return <>{value}</>
+        return value
     }
-
 }
 
 const Table = ({data, search, editMode}) => {
@@ -29,10 +28,19 @@ const Table = ({data, search, editMode}) => {
     const [selectedPage, setSelectedPage] = useState(1);
     const [pageArr, setPageArr] = useState([1]);
     const [viewData, setViewData] = useState([]);
+    const [sortDirection, setSortDirection] = useState(true);
+
+    //Сортировка данных
+    const sortData = (key) => {
+        let dataS;
+        sortDirection ? dataS = [...filteredData].sort((a, b) => a[key] > b[key] ? 1 : -1) : dataS = [...filteredData].sort((a, b) => a[key] < b[key] ? 1 : -1);
+        setSortDirection(!sortDirection);
+        setFilteredData(dataS);
+    }
 
     //Поиск по firstName, lastName
     useEffect(() => {
-        search ? setFilteredData(data.filter(person => person.firstName.toLowerCase().includes(search.toLowerCase()) || person.lastName.toLowerCase().includes(search.toLowerCase()))) : setFilteredData(data);
+        search ? setFilteredData(data.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))) : setFilteredData(data);
         setSelectedPage(1);
     }, [search, data])
 
@@ -52,15 +60,9 @@ const Table = ({data, search, editMode}) => {
         }
     }, [filteredData.length, itemsPerPage, selectedPage])
 
-    //Функция изменения данных при редактировании
-    const handleChangeData = (id, name, value) => {
-        let dataEdited = filteredData;
-        let arrKey = name.split('.');
-        dataEdited[id-1][arrKey] = value;
-        setFilteredData(dataEdited)
-    }
 
     useEffect(() => {
+        console.log('newArr')
         let newArr = [];
         for(let i = (selectedPage-1)*itemsPerPage; i < (selectedPage)*itemsPerPage; i++) {
             if(filteredData[i]) {
@@ -70,30 +72,44 @@ const Table = ({data, search, editMode}) => {
         setViewData(newArr)
     }, [filteredData, itemsPerPage, selectedPage, setViewData])
 
+    //Функция изменения данных при редактировании
+    const handleChangeData = (id, name, value) => {
+        let dataEdited = filteredData;
+        let arrKey = name.split('.');
+        dataEdited[id-1][arrKey] = value;
+        setFilteredData(dataEdited)
+    }
+
     return (
         <div>
             <table className={styles.table}>
                 <thead>
                 <tr>
-                    <th rowSpan={2}>№</th>
-                    <th rowSpan={2}>Имя сотрудника</th>
+                    <th rowSpan={2}><button onClick={() => sortData('id')}>№<img className={cn({
+                        [styles.reverseSortIcon]: !sortDirection
+                    })} src={iconDown} alt="sort icon"/></button></th>
+                    <th rowSpan={2} ><button onClick={() => sortData('name')}>Имя сотрудника <img className={cn({
+                        [styles.reverseSortIcon]: !sortDirection
+                    })} src={iconDown} alt="sort icon"/></button></th>
                     <th colSpan={6}>Основная информация</th>
                 </tr>
                 <tr>
                     <th>ID номер</th>
                     <th>Телефон</th>
-                    <th>Пол</th>
+                    <th><button onClick={() => sortData('base_gender')}>Пол<img className={cn({
+                        [styles.reverseSortIcon]: !sortDirection
+                    })} src={iconDown} alt="sort icon"/></button></th>
                     <th>Дата рождения</th>
-                    <th>Город</th>
+                    <th><button onClick={() => sortData('base_city')}>Город<img className={cn({
+                        [styles.reverseSortIcon]: !sortDirection
+                    })} src={iconDown} alt="sort icon"/></button></th>
                 </tr>
                 </thead>
                 <tbody>
-                {viewData.length > 0 ? viewData.map((p) => {
-                    console.log(viewData)
+                {viewData.length > 0 && viewData.map((p) => {
                     return <tr key={p.id}>
                         <td>{p.id}</td>
-                        <td><TdEdit id={p.id} value={p.firstName} editMode={editMode} handleChangeData={handleChangeData} name={'firstName'}/> <TdEdit value={p.lastName}
-                                                                                      editMode={editMode} id={p.id}  handleChangeData={handleChangeData} name={'lastName'}/></td>
+                        <td><TdEdit id={p.id} value={p.name} editMode={editMode} handleChangeData={handleChangeData} name={'name'}/></td>
                         <td><TdEdit value={p.base_id} editMode={editMode} type={'number'} id={p.id}  handleChangeData={handleChangeData} name={'base_id'}/></td>
                         <td><TdEdit value={p.base_phone} editMode={editMode} type={'tel'} id={p.id}  handleChangeData={handleChangeData} name={'base_phone'}/></td>
                         <td><TdEdit value={p.base_gender} editMode={editMode} type={'text'}/></td>
@@ -101,7 +117,7 @@ const Table = ({data, search, editMode}) => {
                                     type={'date'}/></td>
                         <td><TdEdit value={p.base_city} editMode={editMode} type={'text'}/></td>
                     </tr>
-                }) : 'Ничего не найдено'}
+                })}
                 </tbody>
             </table>
             <div className={styles.tablePagination}>
