@@ -28,10 +28,12 @@ const Table = ({data, search, editMode}) => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [selectedPage, setSelectedPage] = useState(1);
     const [pageArr, setPageArr] = useState([1]);
+    const [viewData, setViewData] = useState([]);
 
     //Поиск по firstName, lastName
     useEffect(() => {
-        search ? setFilteredData(data.filter(person => person.firstName.toLowerCase().includes(search.toLowerCase()) || person.lastName.toLowerCase().includes(search.toLowerCase()))) : setFilteredData(data)
+        search ? setFilteredData(data.filter(person => person.firstName.toLowerCase().includes(search.toLowerCase()) || person.lastName.toLowerCase().includes(search.toLowerCase()))) : setFilteredData(data);
+        setSelectedPage(1);
     }, [search, data])
 
     //Заполнение массива для списка страниц
@@ -41,20 +43,32 @@ const Table = ({data, search, editMode}) => {
             arr.push(i+1);
         }
         setPageArr(arr);
-    }, [selectedPage, itemsPerPage, filteredData.length])
+    }, [selectedPage, itemsPerPage, filteredData])
 
+    //Если изменено количество записей на странице и записей не хватает, то включается последняя страница
     useEffect(() => {
         if(selectedPage*itemsPerPage > filteredData.length) {
             setSelectedPage(filteredData.length/itemsPerPage)
         }
     }, [filteredData.length, itemsPerPage, selectedPage])
 
+    //Функция изменения данных при редактировании
     const handleChangeData = (id, name, value) => {
         let dataEdited = filteredData;
         let arrKey = name.split('.');
         dataEdited[id-1][arrKey] = value;
         setFilteredData(dataEdited)
     }
+
+    useEffect(() => {
+        let newArr = [];
+        for(let i = (selectedPage-1)*itemsPerPage; i < (selectedPage)*itemsPerPage; i++) {
+            if(filteredData[i]) {
+                newArr.push(filteredData[i])
+            }
+        }
+        setViewData(newArr)
+    }, [filteredData, itemsPerPage, selectedPage, setViewData])
 
     return (
         <div>
@@ -74,35 +88,39 @@ const Table = ({data, search, editMode}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredData.length > 0 && filteredData.map((p) => {
-                    if (p.id > selectedPage * itemsPerPage - itemsPerPage && p.id < selectedPage * itemsPerPage + 1) {
-                        return <tr key={p.id}>
-                            <td>{p.id}</td>
-                            <td><TdEdit id={p.id} value={p.firstName} editMode={editMode} handleChangeData={handleChangeData} name={'firstName'}/> <TdEdit value={p.lastName}
-                                                                                          editMode={editMode} id={p.id}  handleChangeData={handleChangeData} name={'lastName'}/></td>
-                            <td><TdEdit value={p.base.id} editMode={editMode} type={'number'} id={p.id}  handleChangeData={handleChangeData} name={'base.id'}/></td>
-                            <td><TdEdit value={p.base.phone} editMode={editMode} type={'tel'}/></td>
-                            <td><TdEdit value={p.base.gender} editMode={editMode} type={'text'}/></td>
-                            <td><TdEdit value={p.base.birthdate.toLocaleDateString()} editMode={editMode}
-                                        type={'date'}/></td>
-                            <td><TdEdit value={p.base.city} editMode={editMode} type={'text'}/></td>
-                        </tr>
-                    }
-                })}
+                {viewData.length > 0 ? viewData.map((p) => {
+                    console.log(viewData)
+                    return <tr key={p.id}>
+                        <td>{p.id}</td>
+                        <td><TdEdit id={p.id} value={p.firstName} editMode={editMode} handleChangeData={handleChangeData} name={'firstName'}/> <TdEdit value={p.lastName}
+                                                                                      editMode={editMode} id={p.id}  handleChangeData={handleChangeData} name={'lastName'}/></td>
+                        <td><TdEdit value={p.base_id} editMode={editMode} type={'number'} id={p.id}  handleChangeData={handleChangeData} name={'base_id'}/></td>
+                        <td><TdEdit value={p.base_phone} editMode={editMode} type={'tel'} id={p.id}  handleChangeData={handleChangeData} name={'base_phone'}/></td>
+                        <td><TdEdit value={p.base_gender} editMode={editMode} type={'text'}/></td>
+                        <td><TdEdit value={p.base_birthdate.toLocaleDateString()} editMode={editMode}
+                                    type={'date'}/></td>
+                        <td><TdEdit value={p.base_city} editMode={editMode} type={'text'}/></td>
+                    </tr>
+                }) : 'Ничего не найдено'}
                 </tbody>
             </table>
             <div className={styles.tablePagination}>
                 <div className={styles.paginationInfo}>показано {selectedPage * itemsPerPage - itemsPerPage + 1} - {selectedPage * itemsPerPage < filteredData.length ? selectedPage * itemsPerPage : filteredData.length} из {filteredData.length} результатов</div>
                 <div className={styles.pagination}>
-                    <button className={cn(styles.arrowIcon)}><img src={arrowIcon} onClick={() => setSelectedPage(selectedPage - 1 > 0 ? selectedPage - 1 : 1)} alt="arrow left"/></button>
+                    <button className={cn(styles.arrowIcon, {
+                        [styles.buttonDisabled] : selectedPage === 1,
+                    })}><img src={arrowIcon} onClick={() => setSelectedPage(selectedPage - 1 > 0 ? selectedPage - 1 : 1)} alt="arrow left"/></button>
                     <div className={styles.pagesButtons}>
                     {pageArr.map((n => {
                         return <button
-                            className={cn(styles.pageButton, selectedPage === n ? styles.active : null)}
+                            className={cn(styles.pageButton, {
+                                [styles.active]: selectedPage === n})}
                             key={n} onClick={() => setSelectedPage(n)}>{n}</button>
                     }))}
                     </div>
-                    <button className={cn(styles.arrowIcon)}><img src={arrowRIcon} onClick={() => setSelectedPage(selectedPage + 1 < pageArr.length ? selectedPage + 1  : pageArr.length)} alt="arrow right"/>
+                    <button className={cn(styles.arrowIcon, {
+                        [styles.buttonDisabled] : selectedPage === pageArr[pageArr.length-1],
+                    })}><img src={arrowRIcon} onClick={() => setSelectedPage(selectedPage + 1 < pageArr.length ? selectedPage + 1  : pageArr.length)} alt="arrow right"/>
                     </button>
                 </div>
                 <div className={styles.paginationInfo}>

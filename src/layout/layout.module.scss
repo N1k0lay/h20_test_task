@@ -1,35 +1,31 @@
+.layout {
+  display: grid;
+  grid-template-areas: 'navbar main';
+  grid-template-columns: 127px auto;
+}
+
 .nav {
   min-height: 100vh;
   border-radius: 56px;
   min-width: 127px;
 }
 
-.navbar {
-  grid-area: navbar;
-}
 
 .main {
   grid-area: main;
   background-color: #FFFFFF;
   border-radius: 56px;
-  display: grid;
-  grid-template-areas: 'topMenu' 'mainContent';
-  grid-template-rows: minmax(auto, 130px) auto;
-}
-
-.header {
-  grid-area: header;
+  display: flex;
+  flex-direction: column;
 }
 
 .topMenu {
   background-color: #FFFFFF;
   padding: 40px;
   border-radius: 56px;
-  grid-area: topMenu;
 }
 
 .mainContent {
   border-radius: 56px;
   background-color: #F8F8F8;
-  grid-area: mainContent;
 }

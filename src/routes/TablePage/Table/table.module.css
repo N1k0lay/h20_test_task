@@ -31,6 +31,12 @@
     font-weight: 700;
     font-size: 14px;
     line-height: 22px;
+    cursor: pointer;
+}
+
+.buttonDisabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 

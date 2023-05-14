@@ -6,7 +6,7 @@ import TopMenu from "../components/TopMenu/TopMenu.jsx";
 
 const Layout = () => {
     return (
-        <>
+        <div className={styles.layout}>
             <header className={styles.navbar}>
                 <NavBarLeft className={styles.nav}/>
             </header>
@@ -18,7 +18,7 @@ const Layout = () => {
                     <Outlet/>
                 </section>
             </main>
-        </>
+        </div>
     );
 };
 
